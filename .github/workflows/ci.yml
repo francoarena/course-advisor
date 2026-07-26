@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  plan-lint:
+    name: plan-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: scripts/check-plan.sh
+
+  verified-pin:
+    name: verified-pin
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: BASE_REF=origin/main scripts/check-verified-pin.sh
+
+  # The declared test-tier ladder (specs/stack-profile.md Q11 — static / unit /
+  # component-render / e2e) is added here once the app is scaffolded by its
+  # first milestone. Nothing to run against yet.
