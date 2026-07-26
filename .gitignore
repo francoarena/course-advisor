@@ -1,0 +1,28 @@
+# Archived pre-keel prototype — has its own git history, not tracked here
+course-advisor-legacy/
+
+# Contains a real student's PII (name, ID, address, phone) — never commit.
+# Used locally only as a parsing reference; a redacted fixture will be
+# authored under a feature's tests/fixtures/ when the parser is built.
+1bugma0t0kb1uep0zn1hrt3c2_57_02_PM_AdvisingWorksheet.pdf
+
+# Node / Next.js (once the app is scaffolded)
+node_modules/
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+npm-debug.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# OS / editor
+.DS_Store
+.vscode/
+
+# Local Claude Code config (machine-local permissions, stale dev-server launch config)
+.claude/
