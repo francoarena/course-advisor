@@ -23,6 +23,20 @@ jobs:
           fetch-depth: 0
       - run: BASE_REF=origin/main scripts/check-verified-pin.sh
 
-  # The declared test-tier ladder (specs/stack-profile.md Q11 — static / unit /
-  # component-render / e2e) is added here once the app is scaffolded by its
-  # first milestone. Nothing to run against yet.
+  static:
+    name: static
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npx eslint .
+      - run: npm run build
+
+  # unit / component-render / e2e (specs/stack-profile.md Q11) are added here
+  # once the first feature milestone installs the test runners — a
+  # deliberate scaffold gap, not an oversight (create-next-app ships none).

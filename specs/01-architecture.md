@@ -121,10 +121,18 @@ deeper):
 
 | Service | Mode (pre-launch) | Env vars | Provisioned by |
 |---|---|---|---|
-| Supabase (Postgres + Auth) | test/dev project | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` | `provision` — dev-dedicated Supabase project |
-| Vercel | preview + prod (both test-mode env pre-launch) | (Vercel-managed; no app-level var beyond the above) | `provision` — Vercel project linked to the GitHub repo |
+| Supabase (Postgres + Auth) | test/dev project (`course-advisor-dev`, ref `btxkqubctkjhfkunpdfi`, `us-east-1`) | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` | `provision` — set at `provision` (2026-09-22) |
+| Vercel | preview + prod (both test-mode env pre-launch) | (Vercel-managed; no app-level var beyond the above) | `provision` — project `arena-co/course-advisor`, linked to `francoarena/course-advisor` (2026-09-22) |
 
 No AI/paid external-API calls in v1 — Q7 (live/external proof) is n/a.
+
+**Env re-derivation:** `npx vercel env pull .env.local` (Development-scoped
+vars only; Production/Preview are set directly in Vercel, never pulled
+locally). **Env name-check:** `scripts/check-env.sh` — asserts the three
+vars above resolve by name, never prints values; this is the only sanctioned
+way to check env state (never read `.env*` directly). **Never run `supabase
+projects api-keys`** — it prints the secret key to stdout; see
+`specs/stack-profile.md` Q12's known-failure-signature table.
 
 **Test-mode credentials only until launch.** Dev and preview deployments use
 the dev Supabase project's test keys. Live keys never enter this environment
