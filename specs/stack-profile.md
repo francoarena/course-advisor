@@ -199,12 +199,14 @@ or it can infinite-loop at runtime while every unit test stays green.
     provisioning; the key was rotated immediately after)."
 - **Fragile-gate preflight scripts:** none identified yet — added as
   discovered, per gate.
-- **Per-suite duration budgets:** finalized at provision. Only the static
-  tier exists today (`npx tsc --noEmit` ~2s, `npx eslint .` ~1s, `next build`
-  ~3-15s cold) — proven green at provision. Unit/component-render/e2e
-  runners are a deliberate scaffold gap (Q11) closed by the first feature
-  milestone, not provision; their budgets are recorded when that milestone
-  installs them.
+- **Per-suite duration budgets:** static tier proven at provision
+  (`npx tsc --noEmit` ~2s, `npx eslint .` ~1s, `next build` ~3-15s cold).
+  Unit tier (`npm test` — Vitest) scaffolded ahead of feature #1's M1/M2
+  build (to avoid both milestones independently touching `package.json`/
+  `vitest.config.ts` and colliding) — proven green with a smoke test,
+  ~0.6s cold; expect this to grow as M1/M2 add real suites, revise the
+  budget once they land. Component-render/e2e runners remain the scaffold
+  gap, closed when `m3-upload-flow` needs them.
 
 ## Q13 — Parallel-session (worktree) isolation contract
 

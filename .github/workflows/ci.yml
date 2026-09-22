@@ -37,6 +37,17 @@ jobs:
       - run: npx eslint .
       - run: npm run build
 
-  # unit / component-render / e2e (specs/stack-profile.md Q11) are added here
-  # once the first feature milestone installs the test runners — a
-  # deliberate scaffold gap, not an oversight (create-next-app ships none).
+  unit:
+    name: unit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  # component-render / e2e (specs/stack-profile.md Q11) are added when the
+  # first UI milestone (m3-upload-flow) needs them.
