@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Final — Auth</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F7FB; --surface:#FFFFFF; --border:#E3E6EF;
+    --text:#1B1F2A; --text-muted:#6E7488;
+    --accent:#1E4A38; --notmet:#E2574C;
+    --shadow:0 4px 18px rgba(20,30,25,.08);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Public Sans',sans-serif;font-size:13px;
+    min-height:100vh;display:flex;align-items:center;justify-content:center;}
+  .card{background:var(--surface);border-radius:20px;box-shadow:var(--shadow);padding:38px 36px;width:380px;}
+  .brand{font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:var(--accent);margin-bottom:26px;}
+  h1{font-family:'Sora',sans-serif;font-size:21px;margin:0 0 4px;font-weight:700;}
+  .sub{color:var(--text-muted);font-size:13px;margin-bottom:26px;}
+  label{display:block;font-size:11.5px;font-weight:700;color:var(--text-muted);margin-bottom:6px;}
+  .field{margin-bottom:18px;}
+  input{width:100%;font-family:'Public Sans',sans-serif;font-size:13.5px;padding:11px 13px;border:1.5px solid var(--border);border-radius:12px;background:var(--surface);}
+  input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(30,74,56,.14);}
+  .error{border-color:var(--notmet)!important;}
+  .error-msg{color:var(--notmet);font-size:11.5px;margin-top:6px;font-weight:500;}
+  button{width:100%;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:13px;font-family:'Public Sans',sans-serif;
+    font-size:13.5px;font-weight:700;cursor:pointer;margin-top:8px;box-shadow:0 4px 14px rgba(30,74,56,.28);}
+  button:hover{background:#173b2c;}
+  .switch{text-align:center;font-size:12.5px;color:var(--text-muted);margin-top:20px;}
+  .switch a{color:var(--accent);font-weight:700;text-decoration:none;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">◆ Course Advisor</div>
+    <h1>Welcome back</h1>
+    <div class="sub">Pick up your plan where you left it.</div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" value="jordan.casey@franciscan.edu">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" class="error" value="wrongpass">
+      <div class="error-msg">That password doesn't match this account.</div>
+    </div>
+    <button>Log in</button>
+    <div class="switch">New here? <a href="#">Create an account</a></div>
+  </div>
+</body>
+</html>

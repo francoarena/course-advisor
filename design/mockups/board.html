@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Board — Course Advisor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F6FA; --surface:#FFFFFF; --border:#E3E6EF;
+    --text:#1B1F2A; --text-muted:#6E7488;
+    --accent:#5B5FEF;
+    --major:#2F80ED; --minor:#27AE60; --core:#F2994A; --elective:#9B51E0;
+    --met:#27AE60; --notmet:#EB5757; --inprogress:#F2C94C;
+    --shadow:0 2px 8px rgba(20,20,50,.07);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Public Sans',sans-serif;font-size:14px;}
+  .topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface);border-bottom:1px solid var(--border);}
+  .brand{font-family:'Sora',sans-serif;font-weight:700;font-size:17px;color:var(--accent);}
+  .progress-btn{display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:var(--bg);font-size:12.5px;font-weight:600;cursor:pointer;}
+  .ring{width:16px;height:16px;border-radius:50%;background:conic-gradient(var(--accent) 79%, #E3E6EF 0);}
+  .legend{display:flex;gap:14px;padding:10px 24px;background:var(--surface);border-bottom:1px solid var(--border);font-size:11.5px;color:var(--text-muted);}
+  .legend span{display:flex;align-items:center;gap:5px;}
+  .dot{width:8px;height:8px;border-radius:50%;}
+  .board{display:flex;gap:16px;padding:22px 24px;overflow-x:auto;}
+  .lane{min-width:230px;flex:0 0 230px;}
+  .lane-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .lane-head h2{font-family:'Sora',sans-serif;font-size:14px;font-weight:600;margin:0;}
+  .lane-head .fill{font-size:11px;color:var(--text-muted);font-weight:600;}
+  .lane.completed .lane-head h2{color:var(--met);}
+  .card{background:var(--surface);border-radius:14px;padding:12px 14px;margin-bottom:10px;box-shadow:var(--shadow);
+    border-left:4px solid var(--major);transition:box-shadow .15s ease, transform .15s ease;}
+  .card:hover{box-shadow:0 6px 16px rgba(20,20,50,.12);transform:translateY(-1px);cursor:grab;}
+  .card.minor{border-left-color:var(--minor);}
+  .card.core{border-left-color:var(--core);}
+  .card.elective{border-left-color:var(--elective);}
+  .card .code{font-size:11.5px;color:var(--text-muted);font-weight:600;letter-spacing:.01em;}
+  .card .title{font-size:13px;margin-top:3px;font-weight:500;line-height:1.3;}
+  .card .meta{display:flex;justify-content:space-between;margin-top:8px;font-size:11.5px;color:var(--text-muted);}
+  .card.done{background:#F3FBF6;}
+  .card.done .code{color:var(--met);}
+  .grade-chip{background:var(--met);color:#fff;border-radius:6px;padding:1px 6px;font-weight:700;font-size:10.5px;}
+  .slot-empty{border:1.5px dashed var(--border);border-radius:14px;padding:14px;text-align:center;font-size:12px;color:var(--text-muted);margin-bottom:10px;}
+  .choice-card{background:#FAF7FF;border-radius:14px;border:1.5px solid var(--elective);padding:12px 14px;margin-bottom:10px;}
+  .choice-card .label{font-size:11px;color:var(--elective);font-weight:600;margin-bottom:6px;}
+  .choice-card select{width:100%;font-family:'Public Sans',sans-serif;font-size:12.5px;padding:7px;border:1px solid var(--border);border-radius:8px;background:var(--surface);}
+  .add-slot{font-size:12px;color:var(--accent);text-align:center;padding:10px;cursor:pointer;border-radius:14px;font-weight:600;}
+  .add-slot:hover{background:var(--surface);}
+</style>
+</head>
+<body>
+  <div class="topnav">
+    <div class="brand">◆ Course Advisor</div>
+    <div class="progress-btn"><span class="ring"></span> 98 / 124 hrs</div>
+  </div>
+  <div class="legend">
+    <span><span class="dot" style="background:var(--major)"></span>Major</span>
+    <span><span class="dot" style="background:var(--minor)"></span>Minor</span>
+    <span><span class="dot" style="background:var(--core)"></span>Core</span>
+    <span><span class="dot" style="background:var(--elective)"></span>Elective</span>
+  </div>
+  <div class="board">
+    <div class="lane completed">
+      <div class="lane-head"><h2>✓ Completed</h2><span class="fill">34</span></div>
+      <div class="card minor done"><div class="code">BUS-307-A</div><div class="title">Princ of Organization &amp; Management</div><div class="meta"><span class="grade-chip">A</span><span>3.00 hrs</span></div></div>
+      <div class="card done"><div class="code">ACC-208-C</div><div class="title">Managerial Accounting</div><div class="meta"><span class="grade-chip">A</span><span>3.00 hrs</span></div></div>
+      <div class="card core done"><div class="code">ECO-201-D</div><div class="title">Principles of Economics I</div><div class="meta"><span class="grade-chip">A</span><span>3.00 hrs</span></div></div>
+    </div>
+    <div class="lane">
+      <div class="lane-head"><h2>Fall 2026</h2><span class="fill">3 / 6</span></div>
+      <div class="card"><div class="code">BUS420</div><div class="title">Strategic Management</div><div class="meta"><span>Needed</span><span>3.00 hrs</span></div></div>
+      <div class="card"><div class="code">ACC304</div><div class="title">Intermediate Accounting I</div><div class="meta"><span>Needed</span><span>3.00 hrs</span></div></div>
+      <div class="choice-card">
+        <div class="label">CHOOSE ONE — BUS Law Option</div>
+        <select><option>Select a course…</option><option>BUS 205 — Business Law I</option><option>BUS 206 — Business Law II</option><option>BUS 208 — Business Law</option></select>
+      </div>
+      <div class="slot-empty">+ Empty slot</div>
+      <div class="slot-empty">+ Empty slot</div>
+      <div class="add-slot">+ Add slot</div>
+    </div>
+    <div class="lane">
+      <div class="lane-head"><h2>Spring 2027</h2><span class="fill">1 / 6</span></div>
+      <div class="card"><div class="code">BUS434</div><div class="title">Senior Thesis</div><div class="meta"><span>Needed</span><span>3.00 hrs</span></div></div>
+      <div class="slot-empty">+ Empty slot</div>
+      <div class="slot-empty">+ Empty slot</div>
+      <div class="slot-empty">+ Empty slot</div>
+      <div class="slot-empty">+ Empty slot</div>
+      <div class="add-slot">+ Add slot</div>
+    </div>
+    <div class="lane">
+      <div class="lane-head"><h2>Fall 2027</h2><span class="fill">0 / 6</span></div>
+      <div class="slot-empty">+ Empty slot</div>
+      <div class="slot-empty">+ Empty slot</div>
+      <div class="slot-empty">+ Empty slot</div>
+      <div class="slot-empty">+ Empty slot</div>
+      <div class="slot-empty">+ Empty slot</div>
+      <div class="slot-empty">+ Empty slot</div>
+      <div class="add-slot">+ Add slot</div>
+    </div>
+  </div>
+</body>
+</html>
