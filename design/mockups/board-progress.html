@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Board — Degree Progress</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F6FA; --surface:#FFFFFF; --border:#E3E6EF;
+    --text:#1B1F2A; --text-muted:#6E7488;
+    --accent:#5B5FEF;
+    --major:#2F80ED; --minor:#27AE60;
+    --met:#27AE60; --notmet:#EB5757;
+    --shadow:0 2px 8px rgba(20,20,50,.07);
+  }
+  *{box-sizing:border-box;font-variant-numeric:tabular-nums;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Public Sans',sans-serif;font-size:14px;}
+  .topnav{padding:14px 24px;background:var(--surface);border-bottom:1px solid var(--border);font-family:'Sora',sans-serif;font-weight:700;font-size:16px;color:var(--accent);}
+  .wrap{max-width:940px;margin:0 auto;padding:28px 24px 60px;}
+  h1{font-family:'Sora',sans-serif;font-size:22px;margin:0 0 4px;font-weight:700;}
+  .sub{color:var(--text-muted);font-size:13.5px;margin-bottom:24px;}
+
+  .majors{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+  .maj-card{background:var(--surface);border-radius:16px;box-shadow:var(--shadow);padding:16px;border-left:4px solid var(--major);}
+  .maj-card.minor{border-left-color:var(--minor);}
+  .maj-card .type{font-size:10.5px;color:var(--text-muted);font-weight:700;letter-spacing:.04em;margin-bottom:4px;}
+  .maj-card .name{font-family:'Sora',sans-serif;font-size:14.5px;font-weight:600;margin-bottom:10px;}
+  .maj-card .hrs{font-size:12px;color:var(--text-muted);}
+  .maj-card .bar{height:6px;background:var(--bg);border-radius:4px;margin-top:8px;position:relative;}
+  .maj-card .bar .fill{position:absolute;left:0;top:0;height:100%;background:var(--major);border-radius:4px;}
+  .maj-card.minor .bar .fill{background:var(--minor);}
+
+  .table-card{background:var(--surface);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;}
+  table{width:100%;border-collapse:collapse;}
+  th{text-align:left;font-size:11px;color:var(--text-muted);font-weight:700;letter-spacing:.03em;padding:12px 18px;background:var(--bg);}
+  td{padding:12px 18px;border-top:1px solid var(--border);font-size:13.5px;}
+  .status{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;}
+  .status.met{color:var(--met);background:#E8F8ED;}
+  .status.notmet{color:var(--notmet);background:#FDECEC;}
+  .status .dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+  .hrs-col{text-align:right;color:var(--text-muted);white-space:nowrap;}
+</style>
+</head>
+<body>
+  <div class="topnav">◆ Course Advisor</div>
+  <div class="wrap">
+    <h1>Degree progress</h1>
+    <div class="sub">Catalog Year 2023 · Senior · 98 of 124 hours earned</div>
+
+    <div class="majors">
+      <div class="maj-card">
+        <div class="type">MAJOR</div>
+        <div class="name">Finance</div>
+        <div class="hrs">30 / 42 hrs</div>
+        <div class="bar"><div class="fill" style="width:71%"></div></div>
+      </div>
+      <div class="maj-card">
+        <div class="type">MAJOR</div>
+        <div class="name">International Business</div>
+        <div class="hrs">21 / 21 hrs</div>
+        <div class="bar"><div class="fill" style="width:100%"></div></div>
+      </div>
+      <div class="maj-card minor">
+        <div class="type">MINOR</div>
+        <div class="name">Management</div>
+        <div class="hrs">18 / 18 hrs</div>
+        <div class="bar"><div class="fill" style="width:100%"></div></div>
+      </div>
+      <div class="maj-card minor">
+        <div class="type">MINOR</div>
+        <div class="name">Ind/Org Psychology</div>
+        <div class="hrs">12 / 18 hrs</div>
+        <div class="bar"><div class="fill" style="width:67%"></div></div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr><th>Requirement group</th><th>Status</th><th class="hrs-col">Hours</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Finance Auxiliary Reqs</td><td><span class="status notmet"><span class="dot"></span>NOT MET</span></td><td class="hrs-col">18 / 18</td></tr>
+          <tr><td>BS Core</td><td><span class="status met"><span class="dot"></span>MET</span></td><td class="hrs-col">42 / 42</td></tr>
+          <tr><td>International Bus Auxiliary Reqs</td><td><span class="status notmet"><span class="dot"></span>NOT MET</span></td><td class="hrs-col">15 / 21</td></tr>
+          <tr><td>Free Electives</td><td><span class="status notmet"><span class="dot"></span>NOT MET</span></td><td class="hrs-col">5 / 15</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

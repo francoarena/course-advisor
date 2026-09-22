@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ledger — Course Advisor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F4EC; --surface:#FFFFFF; --border:#D8CFB8;
+    --text:#1F2937; --text-muted:#6B6455;
+    --navy:#14284B; --gold:#C89B3C;
+    --met:#2F6B4F; --met-bg:#E4EFE8;
+    --notmet:#A23B2E; --notmet-bg:#F5E6E3;
+    --inprogress:#B8862E;
+    --radius:4px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;}
+  .app{display:grid;grid-template-columns:280px 1fr;min-height:100vh;}
+  .sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 20px;}
+  .brand{font-family:'Source Serif 4',serif;font-weight:700;font-size:19px;color:var(--navy);margin-bottom:2px;}
+  .brand-sub{font-size:11px;color:var(--text-muted);letter-spacing:.02em;margin-bottom:24px;}
+  .toc-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin:20px 0 10px;}
+  .req-row{display:flex;align-items:baseline;gap:8px;padding:7px 0;border-bottom:1px dotted var(--border);font-size:13px;}
+  .req-row .leader{flex:1;border-bottom:1px dotted var(--border);margin:0 4px;position:relative;top:-3px;}
+  .req-row .hours{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-muted);white-space:nowrap;}
+  .stamp{display:inline-block;font-family:'Source Serif 4',serif;font-weight:700;font-size:9px;letter-spacing:.06em;
+    padding:2px 7px;border-radius:2px;transform:rotate(-3deg);border:1.5px solid;white-space:nowrap;}
+  .stamp.met{color:var(--met);border-color:var(--met);background:var(--met-bg);}
+  .stamp.notmet{color:var(--notmet);border-color:var(--notmet);background:var(--notmet-bg);}
+  .main{padding:28px 32px;overflow-x:auto;}
+  .main-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
+  .main-head h1{font-family:'Source Serif 4',serif;font-size:24px;margin:0;font-weight:600;}
+  .main-head .catalog{font-size:12px;color:var(--text-muted);font-family:'IBM Plex Mono',monospace;}
+  .subtitle{color:var(--text-muted);font-size:13px;margin-bottom:24px;}
+  .board{display:flex;gap:20px;align-items:flex-start;}
+  .lane{min-width:236px;flex:0 0 236px;}
+  .lane-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--navy);padding-bottom:6px;margin-bottom:12px;}
+  .lane-head h2{font-family:'Source Serif 4',serif;font-size:14px;font-weight:600;margin:0;}
+  .lane-head .fill{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-muted);}
+  .lane.completed .lane-head{border-bottom-color:var(--gold);}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:9px 10px;margin-bottom:8px;
+    box-shadow:none;transition:border-color .15s ease, background .15s ease;}
+  .card:hover{border-color:var(--navy);background:#FDFCF8;cursor:grab;}
+  .card .code{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--navy);font-weight:500;}
+  .card .title{font-size:12.5px;margin-top:2px;line-height:1.3;}
+  .card .meta{display:flex;justify-content:space-between;margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-muted);}
+  .card.done{background:var(--met-bg);border-color:var(--met);opacity:.9;}
+  .card.done .code{color:var(--met);}
+  .slot-empty{border:1px dashed var(--border);border-radius:var(--radius);padding:10px;text-align:center;font-size:11.5px;color:var(--text-muted);margin-bottom:8px;}
+  .choice-card{background:#FDF9EF;border:1px solid var(--gold);border-radius:var(--radius);padding:9px 10px;margin-bottom:8px;}
+  .choice-card .label{font-size:11px;color:var(--text-muted);margin-bottom:5px;font-style:italic;}
+  .choice-card select{width:100%;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;padding:5px;border:1px solid var(--border);border-radius:3px;background:var(--surface);}
+  .add-slot{font-size:11.5px;color:var(--navy);text-align:center;padding:6px;cursor:pointer;border:1px dashed transparent;border-radius:var(--radius);}
+  .add-slot:hover{border-color:var(--navy);}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">Course Advisor</div>
+    <div class="brand-sub">Franciscan University — Unofficial</div>
+    <div class="toc-title">Majors &amp; Minors</div>
+    <div class="req-row"><span>Finance Major</span><span class="leader"></span><span class="hours">30/42</span></div>
+    <div class="req-row"><span>Intl Business Major</span><span class="leader"></span><span class="hours">21/21</span></div>
+    <div class="req-row"><span>Management Minor</span><span class="leader"></span><span class="hours">18/18</span></div>
+    <div class="req-row"><span>Ind/Org Psych Minor</span><span class="leader"></span><span class="hours">12/18</span></div>
+    <div class="toc-title">Requirement Groups</div>
+    <div class="req-row"><span>Finance Aux. Reqs</span><span class="stamp notmet">NOT MET</span></div>
+    <div class="req-row"><span>BS Core</span><span class="stamp met">MET</span></div>
+    <div class="req-row"><span>Intl Bus Aux. Reqs</span><span class="stamp notmet">NOT MET</span></div>
+    <div class="req-row"><span>Free Electives</span><span class="stamp notmet">NOT MET</span></div>
+  </aside>
+  <main class="main">
+    <div class="main-head">
+      <h1>Semester Plan</h1>
+      <span class="catalog">Catalog Year 2023 · Senior</span>
+    </div>
+    <div class="subtitle">124 hrs needed · 98 earned · Course Totals (NOT MET)</div>
+    <div class="board">
+      <div class="lane completed">
+        <div class="lane-head"><h2>Completed</h2><span class="fill">34 courses</span></div>
+        <div class="card done"><div class="code">BUS-307-A</div><div class="title">Princ of Organization &amp; Management</div><div class="meta"><span>A</span><span>3.00</span></div></div>
+        <div class="card done"><div class="code">ACC-208-C</div><div class="title">Managerial Accounting</div><div class="meta"><span>A</span><span>3.00</span></div></div>
+        <div class="card done"><div class="code">ECO-201-D</div><div class="title">Principles of Economics I</div><div class="meta"><span>A</span><span>3.00</span></div></div>
+      </div>
+      <div class="lane">
+        <div class="lane-head"><h2>Fall 2026</h2><span class="fill">3 of 6</span></div>
+        <div class="card"><div class="code">BUS420</div><div class="title">Strategic Management</div><div class="meta"><span>&nbsp;</span><span>3.00</span></div></div>
+        <div class="card"><div class="code">ACC304</div><div class="title">Intermediate Accounting I</div><div class="meta"><span>&nbsp;</span><span>3.00</span></div></div>
+        <div class="choice-card">
+          <div class="label">Choose one from: BUS 205, 206, or 208</div>
+          <select><option>Select a course…</option><option>BUS 205 — Business Law I</option><option>BUS 206 — Business Law II</option><option>BUS 208 — Business Law</option></select>
+        </div>
+        <div class="slot-empty">+ Empty slot</div>
+        <div class="slot-empty">+ Empty slot</div>
+        <div class="add-slot">+ Add slot</div>
+      </div>
+      <div class="lane">
+        <div class="lane-head"><h2>Spring 2027</h2><span class="fill">1 of 6</span></div>
+        <div class="card"><div class="code">BUS434</div><div class="title">Senior Thesis</div><div class="meta"><span>&nbsp;</span><span>3.00</span></div></div>
+        <div class="slot-empty">+ Empty slot</div>
+        <div class="slot-empty">+ Empty slot</div>
+        <div class="slot-empty">+ Empty slot</div>
+        <div class="slot-empty">+ Empty slot</div>
+        <div class="add-slot">+ Add slot</div>
+      </div>
+      <div class="lane">
+        <div class="lane-head"><h2>Fall 2027</h2><span class="fill">0 of 6</span></div>
+        <div class="slot-empty">+ Empty slot</div>
+        <div class="slot-empty">+ Empty slot</div>
+        <div class="slot-empty">+ Empty slot</div>
+        <div class="slot-empty">+ Empty slot</div>
+        <div class="slot-empty">+ Empty slot</div>
+        <div class="slot-empty">+ Empty slot</div>
+        <div class="add-slot">+ Add slot</div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

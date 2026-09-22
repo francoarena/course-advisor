@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rail — Course Advisor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAFAF9; --surface:#FFFFFF; --border:#E7E5E2;
+    --text:#26241F; --text-muted:#8A8578;
+    --accent:#1D4E4A; --accent-tint:#E7EFEE;
+    --met:#3C7A5C; --notmet:#B24444; --inprogress:#B8862E;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Public Sans',sans-serif;font-size:14px;}
+  .app{display:grid;grid-template-columns:56px 1fr;min-height:100vh;}
+  .icon-rail{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:18px 0;gap:22px;}
+  .icon-rail .ico{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:15px;}
+  .icon-rail .ico.active{background:var(--accent-tint);color:var(--accent);}
+  .main{padding:36px 48px;max-width:920px;}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:30px;margin:0 0 4px;}
+  .subtitle{color:var(--text-muted);font-size:13.5px;margin-bottom:32px;}
+  .semrow{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap;}
+  .collapsed{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 14px;font-size:12.5px;color:var(--text-muted);cursor:pointer;}
+  .collapsed .n{color:var(--text);font-weight:600;}
+  .collapsed.current{border-color:var(--accent);color:var(--accent);font-weight:600;}
+  .panel{background:var(--surface);border-radius:10px;box-shadow:inset 0 1px 3px rgba(30,30,20,.06);padding:26px 28px;}
+  .panel-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px;}
+  .panel-head h2{font-family:'Fraunces',serif;font-weight:500;font-size:20px;margin:0;}
+  .panel-head .fill{font-size:12.5px;color:var(--text-muted);}
+  .rows{display:flex;flex-direction:column;gap:12px;}
+  .card{display:flex;justify-content:space-between;align-items:center;background:var(--bg);border-radius:8px;padding:14px 16px;
+    box-shadow:inset 0 1px 2px rgba(30,30,20,.05);transition:border-color .15s ease;border:1px solid transparent;}
+  .card:hover{border-color:var(--accent);cursor:grab;}
+  .card .left .code{font-size:11.5px;color:var(--text-muted);letter-spacing:.02em;}
+  .card .left .title{font-size:14px;margin-top:2px;}
+  .card .hrs{font-size:12.5px;color:var(--text-muted);}
+  .card.done{opacity:.65;}
+  .progress-line{height:3px;background:var(--border);border-radius:2px;margin-top:8px;position:relative;width:120px;}
+  .progress-line .fill-bar{position:absolute;left:0;top:0;height:100%;background:var(--accent);border-radius:2px;}
+  .slot-empty{border:1px dashed var(--border);border-radius:8px;padding:13px 16px;text-align:center;font-size:12px;color:var(--text-muted);}
+  .choice-row{background:var(--bg);border-radius:8px;padding:14px 16px;box-shadow:inset 0 1px 2px rgba(30,30,20,.05);}
+  .choice-row .label{font-size:11.5px;color:var(--accent);margin-bottom:8px;}
+  .choice-row select{width:100%;font-family:'Public Sans',sans-serif;font-size:13px;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--surface);}
+  .add-slot{text-align:center;font-size:12px;color:var(--accent);padding:10px;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="icon-rail">
+    <div class="ico">◐</div>
+    <div class="ico active">▤</div>
+    <div class="ico">⚙</div>
+  </nav>
+  <main class="main">
+    <h1>Your plan</h1>
+    <div class="subtitle">98 of 124 hours earned · Senior standing</div>
+    <div class="semrow">
+      <div class="collapsed">Completed · <span class="n">34</span></div>
+      <div class="collapsed current">Fall 2026 · <span class="n">3/6</span></div>
+      <div class="collapsed">Spring 2027 · <span class="n">1/6</span></div>
+      <div class="collapsed">Fall 2027 · <span class="n">0/6</span></div>
+      <div class="collapsed">Spring 2028 · <span class="n">0/6</span></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Fall 2026</h2>
+        <span class="fill">3 of 6 slots filled</span>
+      </div>
+      <div class="rows">
+        <div class="card"><div class="left"><div class="code">BUS420</div><div class="title">Strategic Management</div></div><div class="hrs">3.00 hrs</div></div>
+        <div class="card"><div class="left"><div class="code">ACC304</div><div class="title">Intermediate Accounting I</div></div><div class="hrs">3.00 hrs</div></div>
+        <div class="choice-row">
+          <div class="label">Choose one — BUS Law Option (BUS 205, 206, or 208)</div>
+          <select><option>Select a course…</option><option>BUS 205 — Business Law I</option><option>BUS 206 — Business Law II</option><option>BUS 208 — Business Law</option></select>
+        </div>
+        <div class="slot-empty">Empty slot — drag a course here</div>
+        <div class="slot-empty">Empty slot — drag a course here</div>
+        <div class="add-slot">+ Add another slot</div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
