@@ -29,5 +29,7 @@ test-results/
 .DS_Store
 .vscode/
 
-# Local Claude Code config (machine-local permissions, stale dev-server launch config)
-.claude/
+# Local Claude Code config — machine-local only. .claude/settings.json (the
+# committed allowlist + keel plugin config) is tracked; these are not.
+.claude/settings.local.json
+.claude/launch.json

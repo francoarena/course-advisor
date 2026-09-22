@@ -115,11 +115,21 @@ no-op.
 
 ## Q10 — Deployed verification surface
 
-The Vercel preview deployment created for each PR. Whether Vercel deployment
-protection is enabled on previews (requiring a bypass header/token for a
-scripted smoke) is **finalized at provision** — record the answer and, if
-enabled, the `VERCEL_AUTOMATION_BYPASS_SECRET` var name (not its value) in
-`01-architecture.md`'s environment contract at that point.
+The Vercel preview deployment created for each PR (project `arena-co/course-advisor`,
+GitHub-connected, so every PR gets one automatically). **Finalized at
+provision:** `vercel project inspect` doesn't surface deployment-protection
+state at all (a CLI gap, not a signal) — it was actually **on** (Vercel
+Authentication/SSO, defaulted on for this team-owned project) and a direct
+curl to the preview URL 302'd to `vercel.com/sso-api` until the user
+disabled it in the dashboard (Project Settings → Deployment Protection).
+Confirmed off now by a direct curl returning 200 on both the preview and
+production URLs (see `01-architecture.md`'s deployed-URLs line) — a scripted
+smoke hits either directly, no bypass header needed. **Don't trust `vercel
+project inspect` to answer this question** — verify with a real curl instead.
+Re-check if the org's Vercel plan or settings change; if protection is ever
+turned back on, record the `VERCEL_AUTOMATION_BYPASS_SECRET` var name (not
+its value) here and in
+`01-architecture.md`'s environment contract.
 
 ## Q11 — Test tiers (committed-test ladder)
 
@@ -151,28 +161,50 @@ or it can infinite-loop at runtime while every unit test stays green.
   matches the **dev** project's URL (never the eventual production project's
   URL) — environment-target classification, so a copied prod env file can't
   silently point local dev at production.
-- **Unique port block / project identity:** finalized at provision (derived
-  from the project name, below the OS ephemeral-port floor per the
-  interface's rule).
+- **Unique port block / project identity:** `21225` (hash of "course-advisor"
+  into the 20000–30000 band, below the 32768 ephemeral-port floor). Bound by
+  `npm run dev` / `npm run start` (`next dev -p 21225` / `next start -p
+  21225`) and recorded in `.claude/launch.json`. Changing it later requires
+  updating both `package.json`'s scripts and `.claude/launch.json` together —
+  there's no hosted dashboard entry to keep in sync since this port is
+  local-dev-server-only, not a Supabase/Vercel setting.
 - **Environment-target classification:** local-target = N/A (no local
   backend); this project only ever has a hosted-target env, and the
   dev-vs-production distinction is *which Supabase project* the URL points
-  at, not local-vs-hosted.
+  at, not local-vs-hosted. Dev project: `course-advisor-dev`
+  (`btxkqubctkjhfkunpdfi`, `us-east-1`).
 - **Canonical invocation path:** repo root (the app lives there — Q1).
-- **Env re-derivation command:** `vercel env pull .env.local` (once the
-  Vercel project is linked at provision) — finalized at provision.
-- **Env name-check command:** finalized at provision — a small committed
-  script (e.g. `scripts/check-env.sh` or a Next.js env-schema check) that
-  reports which of `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
-  `SUPABASE_SERVICE_ROLE_KEY` resolve by **name only** — never prints values.
-- **Known-failure-signature table:** seeded empty; accretes as failures are
-  diagnosed. First entry to expect: "Supabase 401 on a seeded request → dev
-  project's service-role key rotated/missing; re-derive env."
+- **Env re-derivation command:** `npx vercel env pull .env.local` — pulls
+  Development-scoped vars from Vercel's host env store into the local file.
+  Production/Preview vars are set the same way (`vercel env add <NAME>
+  <environment>`, value entered interactively, never via a flag/echo) but are
+  not pulled locally.
+- **Env name-check command:** `scripts/check-env.sh` — reports which of
+  `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+  `SUPABASE_SERVICE_ROLE_KEY` resolve (host env store via `vercel env ls`, or
+  `.env.local`) by **name only** — never prints values. Proven green at
+  provision for the first two; `SUPABASE_SERVICE_ROLE_KEY` is set by the user
+  directly (see the known-failure-signature table below).
+- **Known-failure-signature table:**
+  - "Supabase 401 on a seeded request → dev project's service-role key
+    rotated/missing; re-derive env via `npx vercel env pull .env.local` after
+    confirming it's set (`scripts/check-env.sh`)."
+  - "`check-env.sh` reports `SUPABASE_SERVICE_ROLE_KEY` missing → the user
+    hasn't set it yet, or it needs rotating; direct them to the Supabase
+    dashboard (Settings → API Keys) to regenerate, then `vercel env add
+    SUPABASE_SERVICE_ROLE_KEY <environment>` themselves, in their own
+    terminal. **Never run `supabase projects api-keys` to fetch it** — that
+    command prints the secret key value to stdout, which is exactly the
+    exposure this rule exists to prevent (hit once during this project's own
+    provisioning; the key was rotated immediately after)."
 - **Fragile-gate preflight scripts:** none identified yet — added as
   discovered, per gate.
-- **Per-suite duration budgets:** finalized at provision (needs a real
-  suite to time). Rough expectation once built: static <10s, unit <10s,
-  component-render <60s, e2e <5min including server boot.
+- **Per-suite duration budgets:** finalized at provision. Only the static
+  tier exists today (`npx tsc --noEmit` ~2s, `npx eslint .` ~1s, `next build`
+  ~3-15s cold) — proven green at provision. Unit/component-render/e2e
+  runners are a deliberate scaffold gap (Q11) closed by the first feature
+  milestone, not provision; their budgets are recorded when that milestone
+  installs them.
 
 ## Q13 — Parallel-session (worktree) isolation contract
 

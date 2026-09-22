@@ -1,0 +1,50 @@
+# Bare command shapes an autonomous run executes, one per line.
+# Dry-run target for scripts/check-auto-preflight.sh against .claude/settings.json.
+# Blank lines and # comments are ignored.
+
+git status
+git diff
+git log
+git show
+git branch
+git checkout
+git switch
+git add
+git commit
+git fetch
+git push
+gh pr create
+gh pr view
+gh pr edit
+gh pr checks
+gh pr list
+gh pr diff
+gh pr status
+gh pr merge
+
+npx supabase migration
+npx supabase db diff
+npx supabase db lint
+npx supabase gen types
+npx supabase projects list
+
+npx vercel env ls
+npx vercel env pull
+npx vercel deploy --prebuilt
+npx vercel inspect
+
+npm run dev
+npm run build
+npm run lint
+npm run start
+npm test
+npm run test
+npx tsc --noEmit
+npx eslint
+npx vitest run
+npx playwright test
+
+scripts/check-plan.sh
+scripts/check-verified-pin.sh
+scripts/check-env.sh
+scripts/repin.sh
