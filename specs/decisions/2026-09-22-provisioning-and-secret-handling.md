@@ -35,6 +35,23 @@ contract in `01-architecture.md`.
   always: don't use it, tell the user plainly, and have them rotate/delete
   the resource it belongs to — never try to quietly work around it.
 
+## A third thing: Vercel Authentication was on and undetectable via CLI
+
+`vercel project inspect` (plain and `--json`) showed no deployment-protection
+state at all — read as "not enabled" and recorded that way in
+`stack-profile.md` Q10. It was wrong: Vercel Authentication/SSO was actually
+**on** by default for this team-owned project, and a direct curl to the
+preview URL 302'd to `vercel.com/sso-api` instead of returning the page. The
+user disabled it in the dashboard (Project Settings → Deployment Protection
+— unrelated to their account's own authenticator-app/2FA setup, which was
+the first, wrong guess at what "Vercel Authentication" meant). Confirmed off
+by a real `curl -I` returning 200 on both preview and production, not by
+re-running `vercel project inspect`.
+
+**Lesson:** `vercel project inspect` cannot be trusted to answer whether
+deployment protection is on — verify with a real HTTP request to the
+deployed URL instead. Recorded in `stack-profile.md` Q10.
+
 ## Also decided this session
 
 - **Port assignment:** `21225` (derived from the project name hash, per

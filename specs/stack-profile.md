@@ -117,11 +117,18 @@ no-op.
 
 The Vercel preview deployment created for each PR (project `arena-co/course-advisor`,
 GitHub-connected, so every PR gets one automatically). **Finalized at
-provision:** deployment protection is **not enabled** on this project (`vercel
-project inspect` shows no protection section) — a scripted smoke hits the
-preview URL directly, no bypass header needed. Re-check this if the org's
-Vercel plan or settings change; if protection is ever turned on, record the
-`VERCEL_AUTOMATION_BYPASS_SECRET` var name (not its value) here and in
+provision:** `vercel project inspect` doesn't surface deployment-protection
+state at all (a CLI gap, not a signal) — it was actually **on** (Vercel
+Authentication/SSO, defaulted on for this team-owned project) and a direct
+curl to the preview URL 302'd to `vercel.com/sso-api` until the user
+disabled it in the dashboard (Project Settings → Deployment Protection).
+Confirmed off now by a direct curl returning 200 on both the preview and
+production URLs (see `01-architecture.md`'s deployed-URLs line) — a scripted
+smoke hits either directly, no bypass header needed. **Don't trust `vercel
+project inspect` to answer this question** — verify with a real curl instead.
+Re-check if the org's Vercel plan or settings change; if protection is ever
+turned back on, record the `VERCEL_AUTOMATION_BYPASS_SECRET` var name (not
+its value) here and in
 `01-architecture.md`'s environment contract.
 
 ## Q11 — Test tiers (committed-test ladder)

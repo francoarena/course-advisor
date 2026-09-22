@@ -126,6 +126,8 @@ deeper):
 
 No AI/paid external-API calls in v1 — Q7 (live/external proof) is n/a.
 
+**Deployed URLs:** production `https://course-advisor-five.vercel.app`, preview per-PR at `https://course-advisor-<hash>-arena-co.vercel.app`. Vercel Authentication (deployment protection) is **off** on both — pre-launch, there's no real user data at risk, and this keeps CI/verification smokes and public testing dependency-free. Revisit at the launch event if staging lockdown becomes wanted (see Q10 in `specs/stack-profile.md`).
+
 **Env re-derivation:** `npx vercel env pull .env.local` (Development-scoped
 vars only; Production/Preview are set directly in Vercel, never pulled
 locally). **Env name-check:** `scripts/check-env.sh` — asserts the three
