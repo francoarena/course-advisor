@@ -20,7 +20,7 @@ VARS=(
 fail=0
 
 if command -v vercel >/dev/null 2>&1 || command -v npx >/dev/null 2>&1; then
-  remote="$(npx --yes vercel env ls development 2>/dev/null || true)"
+  remote="$(npx --yes vercel env ls 2>/dev/null || true)"
 else
   remote=""
 fi
