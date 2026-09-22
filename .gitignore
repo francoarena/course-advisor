@@ -6,7 +6,7 @@ course-advisor-legacy/
 # authored under a feature's tests/fixtures/ when the parser is built.
 1bugma0t0kb1uep0zn1hrt3c2_57_02_PM_AdvisingWorksheet.pdf
 
-# Node / Next.js (once the app is scaffolded)
+# Node / Next.js
 node_modules/
 .next/
 out/
@@ -14,6 +14,11 @@ build/
 dist/
 *.tsbuildinfo
 npm-debug.log*
+next-env.d.ts
+.vercel
+coverage/
+playwright-report/
+test-results/
 
 # Env
 .env

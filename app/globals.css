@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---- Primitive tier: raw values, never referenced outside this file ---- */
+:root {
+  --p-forest-900: #14392b;
+  --p-forest-700: #1e4a38;
+  --p-forest-500: #4ca07a;
+  --p-forest-100: #e7eeea;
+  --p-forest-950-tint: #1c2e26;
+
+  --p-gold-700: #8a6a1f;
+  --p-gold-600: #b8912e;
+  --p-gold-400: #d4af4e;
+  --p-gold-100: #f7efdd;
+  --p-gold-950-tint: #3a311c;
+
+  --p-slate-0: #ffffff;
+  --p-slate-50: #f6f7fb;
+  --p-slate-100: #e3e6ef;
+  --p-slate-200: #b9c0cc;
+  --p-slate-500: #6e7488;
+  --p-slate-900: #1b1f2a;
+
+  --p-ink-950: #12161a;
+  --p-ink-900: #1b2027;
+  --p-ink-800: #2a313a;
+  --p-ink-100: #e7eaee;
+  --p-ink-300: #9aa3ae;
+
+  --p-green-600: #1f8a5f;
+  --p-green-400: #34a876;
+  --p-red-500: #e2574c;
+  --p-red-400: #f2776a;
+  --p-amber-500: #d99a2b;
+  --p-amber-400: #e4ad4f;
+}
+
+/* ---- Semantic tier (light, default) — components read only these ---- */
+@theme {
+  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-ui: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: var(--p-slate-50);
+  --color-surface: var(--p-slate-0);
+  --color-border: var(--p-slate-100);
+  --color-text: var(--p-slate-900);
+  --color-text-muted: var(--p-slate-500);
+
+  --color-accent: var(--p-forest-700);
+  --color-accent-soft: var(--p-forest-100);
+  --color-accent-strong: var(--p-forest-900);
+
+  --color-gold: var(--p-gold-600);
+  --color-gold-soft: var(--p-gold-100);
+  --color-gold-strong: var(--p-gold-700);
+
+  --color-success: var(--p-green-600);
+  --color-success-soft: #e7f6ec;
+  --color-danger: var(--p-red-500);
+  --color-danger-soft: #fcebe9;
+  --color-warning: var(--p-amber-500);
+  --color-warning-soft: var(--p-gold-100);
+
+  --radius-card: 16px;
+  --radius-control: 12px;
+  --radius-chip: 999px;
+
+  --shadow-card: 0 2px 10px rgb(20 30 25 / 0.06);
+  --shadow-card-hover: 0 6px 18px rgb(20 30 25 / 0.1);
+  --shadow-focus-ring: 0 0 0 3px rgb(30 74 56 / 0.14);
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-standard: 150ms;
+}
+
+/* ---- Semantic tier override (dark) ---- */
+.dark {
+  --color-bg: var(--p-ink-950);
+  --color-surface: var(--p-ink-900);
+  --color-border: var(--p-ink-800);
+  --color-text: var(--p-ink-100);
+  --color-text-muted: var(--p-ink-300);
+
+  --color-accent: var(--p-forest-500);
+  --color-accent-soft: var(--p-forest-950-tint);
+  --color-accent-strong: #6bbd97;
+
+  --color-gold: var(--p-gold-400);
+  --color-gold-soft: var(--p-gold-950-tint);
+  --color-gold-strong: #e8c374;
+
+  --color-success: var(--p-green-400);
+  --color-success-soft: #163828;
+  --color-danger: var(--p-red-400);
+  --color-danger-soft: #3a1e1c;
+  --color-warning: var(--p-amber-400);
+  --color-warning-soft: var(--p-gold-950-tint);
+
+  --shadow-card: 0 2px 10px rgb(0 0 0 / 0.3);
+  --shadow-card-hover: 0 6px 20px rgb(0 0 0 / 0.4);
+  --shadow-focus-ring: 0 0 0 3px rgb(76 160 122 / 0.28);
+}
+
+/* Interaction-state tokens: read once here, never re-decided per component. */
+@theme {
+  --opacity-disabled: 0.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+}
